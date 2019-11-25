@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div> 登陆界面</div>
+<form id="loginForm">
+    <div>
+        <lable>
+            用户名<input type="text" class="username">
+        </lable>
+    </div>
+    <div>
+        <lable>
+            密码:<input type="text" class="password">
+        </lable>
+    </div>
+    <button type="submit">登陆</button>
+</form>
+
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    let $loginForm = $('#loginForm')
+    $loginForm.on('submit', (e) => {
+        e.preventDefault()
+        let name = $loginForm.find('.username').val()
+        let password = $loginForm.find('.password').val()
+        console.log(name, password);
+        $.ajax({
+            method: "post",
+            url: "/login",
+            contentType: 'text/json;charset=utf-8',
+            data: JSON.stringify({name, password}),
+            success:()=>{
+                alert('登陆成功')
+                location.href = "./home.html"
+            },
+            error:()=>{
+                alert("登陆失败")
+            }
+        })
+    })
+</script>
