@@ -27,7 +27,11 @@
             method:'get',
             url:'/logout',
             contentType: 'text/json;charset=utf-8',
-            data:{"username":$name}
+            data:{"username":$name},
+            success:()=>{
+                alert('注销成功')
+                location.href='./regist.html'
+            }
         })
     })
 

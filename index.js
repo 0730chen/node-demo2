@@ -142,6 +142,7 @@ let server = http.createServer((request, response) => {
         }
         //根据sessionId删除数据
         // console.log(session[sessionId]);
+        response.setHeader("Content-Type", "text/html; charset=utf-8");
         let id = session[sessionId]["user_id"]
         let userArray = JSON.parse(fs.readFileSync('./db/users.json'))
         userArray = userArray.reduce((item, e, index) => {
@@ -154,8 +155,19 @@ let server = http.createServer((request, response) => {
         }, [])
         fs.writeFileSync('./db/users.json', JSON.stringify(userArray))
         let sessionArray = JSON.parse(fs.readFileSync('./public/session.json'))
-        // console.log(sessionArray);
-        let idArray = Object.values(sessionArray)
+        let newSessionArray = {}
+        Object.entries(sessionArray).forEach((e,index)=>{
+            if(e[1].user_id===2){
+                console.log("找到了session",e)
+            }else{
+                console.log("剩余的session",e[0],e[1])
+                newSessionArray[e[0]] = e[1]
+            }
+        })
+        fs.writeFileSync('./public/session.json',JSON.stringify(newSessionArray))
+        response.write('注销成功')
+        response.end()
+        // let idArray = Object.values(sessionArray)
 
     } else {
         response.statusCode = 200
